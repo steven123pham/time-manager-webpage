@@ -1,25 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import ButtonAppBar from "./model/Appbar";
+import Schedule from "./model/Schedule";
+import { createTheme, ThemeProvider, Theme } from "@mui/material/styles";
+import { Paper } from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
 
 function App() {
+  const [darkMode, setDarkMode] = useState<boolean>(false);
+
+  const theme: Theme = createTheme({
+    palette: {
+      mode: darkMode ? "dark" : "light",
+    },
+  });
+
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline /> {/* Add CssBaseline to reset default styles */}
+      <Paper
+        sx={{
+          height: "100vh", // Set height to 100% of viewport height
+          width: "100vw", // Set width to 100% of viewport width
+        }}
+      >
+        <ButtonAppBar check={darkMode} change={toggleDarkMode} />
+        <br />
+        <Schedule darkMode={darkMode} />
+      </Paper>
+    </ThemeProvider>
   );
 }
 
