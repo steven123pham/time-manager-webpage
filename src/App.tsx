@@ -1,12 +1,22 @@
 import React, { useState } from "react";
 import ButtonAppBar from "./model/Appbar";
-import Schedule from "./model/Schedule";
+import Schedule from "./model/Todo";
+import Calendar from './model/Calendar';
 import { createTheme, ThemeProvider, Theme } from "@mui/material/styles";
-import { Paper } from "@mui/material";
+import { Paper, Box, Grid } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles(({
+  title: {
+    height: '25vh',
+    width: '25vw',
+  }
+}));
 
 function App() {
   const [darkMode, setDarkMode] = useState<boolean>(false);
+  const classes = useStyles();
 
   const theme: Theme = createTheme({
     palette: {
@@ -20,16 +30,21 @@ function App() {
 
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline /> {/* Add CssBaseline to reset default styles */}
-      <Paper
-        sx={{
-          height: "100vh", // Set height to 100% of viewport height
-          width: "100vw", // Set width to 100% of viewport width
-        }}
-      >
-        <ButtonAppBar check={darkMode} change={toggleDarkMode} />
-        <br />
-        <Schedule darkMode={darkMode} />
+      <CssBaseline />
+      <Paper sx={{ height: "100vh", width: "100vw" }}>
+        <Box sx={{flexGrow: 1}}>
+        <Box sx={{marginBottom: 10}}>
+          <ButtonAppBar check={darkMode} change={toggleDarkMode} />
+        </Box>
+          <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
+            <Grid item xs={6} md={4} sx={{marginLeft: 20}}>
+              <Calendar darkMode={darkMode}/>
+            </Grid>
+            <Grid item xs={4} md={4} className={classes.title}>
+              <Schedule darkMode={darkMode} />
+            </Grid>
+          </Grid>
+          </Box>
       </Paper>
     </ThemeProvider>
   );
